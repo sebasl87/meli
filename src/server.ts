@@ -20,7 +20,7 @@ class Server {
         this.app.use(morgan('dev'))
     }
     routes(){
-        this.app.use(index)
+        this.app.use('/api/items', index)
 
     }
     start(){

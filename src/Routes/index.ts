@@ -14,6 +14,10 @@ class Api {
   public async Consulta(req: Request, res: Response) {
     const item = req.query.q;
 
+    /**Call to Meli List */
+    const response = await fetch(
+      `https://api.mercadolibre.com/sites/MLA/search?q=${item}`
+    );
     /**Author data */
     const datos = {
       author: {
@@ -21,10 +25,6 @@ class Api {
         lastname: "Loguzzo",
       },
     };
-    /**Call to Meli List */
-    const response = await fetch(
-      `https://api.mercadolibre.com/sites/MLA/search?q=${item}`
-    );
     /**Convert String to JSON */
     const data = await response.json();
     /**Categories */
@@ -60,18 +60,46 @@ class Api {
   public async Detalle(req: Request, res: Response) {
     const { id } = req.params;
 
-    /** Call to Meli Items */
-    const response = await fetch(
-      `https://api.mercadolibre.com/items/${id}`
-    );
-    /**Convert to JSON to give pattern */
-    const data = await response.json();
+    /** Call to Meli item full detail */
+    const responseDetail = await fetch(`https://api.mercadolibre.com/items/${id}`);
+    /** Call to Meli item description */
+    const responseDescription = await fetch(`https://api.mercadolibre.com/items/${id}/description`);
+    /**Convert String to JSON */
+    const data = await responseDetail.json();
+    const description = await responseDescription.json();
+    /**Author data */
+    const datos = {
+      author: {
+        name: "Sebastian",
+        lastname: "Loguzzo",
+      },
+    };
+    /**Pattern */
+    const item = {
+      id: data.id,
+      title: data.title,
+      price: {
+        currency: data.currency_id,
+        amount: data.price,
+      },
+      picture: data.pictures.url,
+      condition: data.condition,
+      free_shipping: data.shipping.free_shipping,
+      sold_quantity: data.sold_quantity,
+      description: description.plain_text
+    };
 
-    res.json(data);
+    /**Total result */
+    const listDetails = {
+      ...datos,
+      item
+    };
+
+    res.json(listDetails);
   }
   routes(): void {
-    this.router.get("/api/items", this.Consulta);
-    this.router.get("/api/items/:id", this.Detalle);
+    this.router.get("/?q=:query", this.Consulta);
+    this.router.get("/:id", this.Detalle);
   }
 }
 
