@@ -12,7 +12,7 @@ class Server {
         this.routes();
     }
     config(){
-        this.app.set('port', process.env.port || 3000);
+        this.app.set('port', process.env.port || 3030);
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:false}))
     }

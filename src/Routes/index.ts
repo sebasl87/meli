@@ -13,7 +13,7 @@ class Api {
 
   public async Consulta(req: Request, res: Response) {
     const item = req.query.q;
-
+    console.log(item)
     /**Call to Meli List */
     const response = await fetch(
       `https://api.mercadolibre.com/sites/MLA/search?q=${item}`
@@ -43,6 +43,7 @@ class Api {
         picture: it.thumbnail,
         condition: it.condition,
         free_shipping: it.shipping.free_shipping,
+        state: it.address.state_name
       };
       return item;
     });
@@ -98,7 +99,7 @@ class Api {
     res.json(listDetails);
   }
   routes(): void {
-    this.router.get("/?q=:query", this.Consulta);
+    this.router.get("", this.Consulta);
     this.router.get("/:id", this.Detalle);
   }
 }
