@@ -83,7 +83,7 @@ class Api {
         currency: data.currency_id,
         amount: data.price,
       },
-      picture: data.pictures.url,
+      picture: data.pictures[0].url,
       condition: data.condition,
       free_shipping: data.shipping.free_shipping,
       sold_quantity: data.sold_quantity,
