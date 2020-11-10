@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/sebasl87/meli#readme",
   "dependencies": {
+    "@types/cors": "^2.8.8",
     "@types/express": "^4.17.8",
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.6",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "rimraf": "^3.0.2",
