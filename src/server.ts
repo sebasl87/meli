@@ -1,7 +1,7 @@
 import express from 'express';
 import index from './Routes';
 import morgan from 'morgan';
-
+import cors from 'cors';
 class Server {
     public app: express.Application;
 
@@ -17,7 +17,8 @@ class Server {
         this.app.use(express.urlencoded({extended:false}))
     }
     middlewares(){
-        this.app.use(morgan('dev'))
+        this.app.use(morgan('dev'));
+        this.app.use(cors());
     }
     routes(){
         this.app.use('/api/items', index)
