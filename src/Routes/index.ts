@@ -31,10 +31,16 @@ class Api {
     const data = await response.json();
 
     /** Call to Meli category information */
-    const responseBreadcrumb = await fetch(
-      `https://api.mercadolibre.com/categories/${data.available_filters[0].values[0].id}`
-    );
+    let queryCat = "";
 
+    if (data.available_filters[0].id === "category") {
+      queryCat = data.available_filters[0].values[0].id;
+    } else {
+      queryCat = data.filters[0].values[0].id;
+    }
+    const responseBreadcrumb = await fetch(
+      `https://api.mercadolibre.com/categories/${queryCat}`
+    );
     /**Convert String to JSON */
     const route = await responseBreadcrumb.json();
 
@@ -67,7 +73,7 @@ class Api {
       ...datos,
       categories,
       items,
-      breadcrumb
+      breadcrumb,
     };
 
     res.json(listItems);
